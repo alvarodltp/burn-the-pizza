@@ -70,7 +70,6 @@ const styles = theme => ({
 });
 
 class SearchBar extends React.Component {
-
   render() {
     const { classes } = this.props;
 
@@ -103,7 +102,7 @@ class SearchBar extends React.Component {
           <List className={classes.root}>
           {this.props.resultsArr && this.props.search !== "" ? this.props.resultsArr.map(result =>
             <ListItem>
-              <ListItemText onClick={() => this.props.getItem(result)} primary={`${result.item_name} - ${result.brand_name}`} secondary={`${result.nf_serving_size_qty} ${result.nf_serving_size_unit} - ${result.nf_calories} Cal | ${result.nf_total_carbohydrate} Carb | ${result.nf_total_fat} Fat | ${result.nf_protein} Protein`}/>
+              <ListItemText onClick={() => this.props.addItemToArr(result)} primary={`${result.item_name} - ${result.brand_name}`} secondary={`${result.nf_serving_size_qty} ${result.nf_serving_size_unit} - ${result.nf_calories} Cal | ${result.nf_total_carbohydrate} Carb | ${result.nf_total_fat} Fat | ${result.nf_protein} Protein`}/>
             </ListItem> ) : null }
           </List>
         </div>

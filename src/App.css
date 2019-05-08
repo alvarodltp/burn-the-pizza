@@ -31,3 +31,13 @@
     transform: rotate(360deg);
   }
 }
+
+.material-icons.md-light {
+  font-size: 36px;
+  color: orange;
+}
+
+#number {
+  margin-left: 10px;
+  margin-right: 10px;
+}
