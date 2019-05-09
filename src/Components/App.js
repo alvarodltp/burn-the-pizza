@@ -6,6 +6,8 @@ import GuiltLevelMessage from './GuiltLevelMessage'
 import FoodCalculationResults from './FoodCalculationResults'
 import SearchResults from './SearchResults'
 import ExerciseDropdown from './ExerciseDropdown'
+import { Button } from 'semantic-ui-react'
+import LandingPage from './LandingPage'
 
 let counter = 1
 
@@ -26,11 +28,12 @@ class App extends React.Component {
       guiltLevel: "",
       color: "#f0f0f0",
       percentage: 0,
-      hideFoodList: false,
+      hideFoodList: true,
       selectedActivity: "",
       userWeightKg: "",
       totalExerciseTime: "",
-      weight: ""
+      weight: "",
+      exerciseDropdown: false
     }
   }
 
@@ -99,7 +102,7 @@ class App extends React.Component {
 
   hideFoodList = () => {
     this.setState({
-      hideFoodList: true
+      hideFoodList: !this.state.hideFoodList
     })
   }
 
@@ -128,16 +131,28 @@ class App extends React.Component {
     })
   }
 
+  clearGuiltLevel = () => {
+    this.setState({
+      guiltLevel: ""
+    })
+  }
+
+  displayExerciseDropdown = () => {
+    this.setState({
+      exerciseDropdown: !this.state.exerciseDropdown
+    })
+  }
+
   render(){
     return (
       <React.Fragment>
         <div className="App">
-          {this.state.hideFoodList === false ? <SearchBar getSearchOptions={this.getSearchOptions} addItemToArr={this.addItemToArr} search={this.state.search} resultsArr={this.state.resultsArr} itemNames={this.state.itemNames}/> : null }
+          {this.state.search.length < 1 === true && this.state.arrOfItems.length === 0 ? <LandingPage hideFoodList={this.hideFoodList}/> : null}
+          <SearchBar getSearchOptions={this.getSearchOptions} addItemToArr={this.addItemToArr} search={this.state.search} resultsArr={this.state.resultsArr} itemNames={this.state.itemNames}/>
           <SearchResults resultsArr={this.state.resultsArr} search={this.state.search} addItemToArr={this.addItemToArr} />
-          {this.state.arrOfItems.length > 0 && this.state.hideFoodList === false ? <FoodList calculateMacros={this.calculateMacros} removeItem={this.removeItem} number={this.state.number} arrOfItems={this.state.arrOfItems}/> : null }
-          <FoodCalculationResults calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/>
-          <GuiltLevelMessage guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/>
-          <ExerciseDropdown handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick}/>
+          {this.state.arrOfItems.length > 0 && this.state.guiltLevel === "" ? <FoodList calculateMacros={this.calculateMacros} removeItem={this.removeItem} number={this.state.number} arrOfItems={this.state.arrOfItems}/> : null }
+          {this.state.totalCalories !== "" ? <FoodCalculationResults calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
+          {this.state.totalCalories !== "" && this.state.guiltLevel !== ""? <GuiltLevelMessage handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick} exerciseDropdown={this.state.exerciseDropdown} displayExerciseDropdown={this.displayExerciseDropdown} clearGuiltLevel={this.clearGuiltLevel} guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/> : null }
         </div>
       </React.Fragment>
     );

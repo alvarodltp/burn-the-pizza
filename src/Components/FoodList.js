@@ -6,7 +6,7 @@ class FoodList extends React.Component {
   return (
     <React.Fragment>
       <div id="result-list">
-        <h1>Your Cheat Foods</h1>
+        <h1 style={{fontSize: "40px"}}>Your Cheat Foods</h1>
         <List divided verticalAlign='middle'>
         {this.props.arrOfItems.map(item =>
           <List.Item>
@@ -17,7 +17,7 @@ class FoodList extends React.Component {
       </div>
       <div>
         <Button id="calculate-button" onClick={this.props.calculateMacros}>
-          Calculate Guilt
+          Calculate Guilt Level
         </Button>
       </div>
     </React.Fragment>

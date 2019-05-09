@@ -27,12 +27,11 @@ const ExerciseDropdown = (props) => {
     <React.Fragment>
       <Input
       id="weight"
+      label="Weight"
       onChange={props.handleChange}
-      action={{ color: 'blue', labelPosition: 'right', icon: 'check', content: 'Submit' }}
-      actionPosition='right'
       placeholder='Enter Your Weight in Lb...'
-      /><br/>
-      <Dropdown id="activity-dropdown" onChange={(e, data) => {props.handleDropdownClick(e, data)}} placeholder='Select Activity...' search selection options={activityOptions} />
+      />
+      <Dropdown label="Exercise Type" id="activity-dropdown" onChange={(e, data) => {props.handleDropdownClick(e, data)}} placeholder='Select Activity...' search selection options={activityOptions} />
     </React.Fragment>
   )
 }
