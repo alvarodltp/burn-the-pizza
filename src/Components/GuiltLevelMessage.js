@@ -11,13 +11,13 @@ function GuiltLevelMessage(props) {
       <Card.Content style={{boxShadow: "none", borderRadius: "0px"}} extra>
 
       {props.guiltLevel["name"] === "The Reckless Cheater" ?
-      <Modal trigger={<Button onClick={props.popUpMessage} style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}}>Order Pizza 🍕</Button>}
+      <Modal trigger={<Button onClick={props.setNewCheaterLevel}style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}}>Order Pizza 🍕</Button>}
         centered={true}>
         <Modal.Header>This is a confirmation you are a reckless cheater.</Modal.Header>
         <Modal.Content image>
           <Image wrapped size='medium' src='https://media.giphy.com/media/1iLEjvA5AIf53MVq/giphy.gif' />
           <Modal.Description>
-            <p>Did you really think I was going to let you order pizza?</p>
+            <p>Congratulations! Your level is now "The Out Of Control Cheater".</p>
           </Modal.Description>
         </Modal.Content>
       </Modal> : null }

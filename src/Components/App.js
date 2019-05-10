@@ -37,7 +37,9 @@ class App extends React.Component {
       weight: "",
       exerciseDropdown: false,
       imageUrl: "",
-      showSearchBar: true
+      showSearchBar: true,
+      newLevel: "",
+      hoursAndMin: ""
     }
   }
 
@@ -107,9 +109,9 @@ class App extends React.Component {
     this.state.arrOfItems.length >= 1 ? totalProtein = this.state.arrOfItems.map(item => item.nf_protein).reduce((a, b) => a + b).toFixed(2) : totalProtein = 0
     let guiltLevel;
 
-    if(totalCalories <= 300){
+    if(totalCalories <= 400){
       guiltLevel = {name:"The Responsible Cheater", percent:"50", description: "Responsible cheaters care about their nutrition but still like to have fun. You understand the balance between working hard for your goals and stuffing your face with bad foods once in a while."}
-    } else if (totalCalories > 300 && totalCalories < 500){
+    } else if (totalCalories > 400 && totalCalories < 700){
       guiltLevel = {name:"The Basic Cheater", percent:"70", description: "Basic cheaters are as the word states; just basic. You didn't want to do too bad but you ended up falling for temptation and having more than what you should've."}
     } else {
       guiltLevel = {name:"The Reckless Cheater", percent:"100", description: "You are a Reckless Cheater. You might as well order some pizza."}
@@ -154,7 +156,7 @@ class App extends React.Component {
     let totalExerciseTime = Math.round(this.state.totalCalories / energyExpenditurePerMinute)
     this.setState({
       totalExerciseTime: totalExerciseTime
-    })
+    }, () => this.convertExerciseTimeToHours())
   }
 
   handleChange = (e) => {
@@ -165,7 +167,9 @@ class App extends React.Component {
 
   clearGuiltLevel = () => {
     this.setState({
-      guiltLevel: ""
+      guiltLevel: "",
+      newLevel: "",
+      totalExerciseTime: ""
     })
   }
 
@@ -187,6 +191,25 @@ class App extends React.Component {
     })
   }
 
+  setNewCheaterLevel = () => {
+    this.setState({
+      newLevel: "The Out Of Control Cheater"
+    })
+  }
+
+  convertExerciseTimeToHours = () => {
+    let minutes = this.state.totalExerciseTime
+    let hours = Math.floor(minutes / 60);
+    let min = minutes % 60;
+    hours = hours < 10 ? '0' + hours : hours;
+    min = min < 10 ? '0' + min : min;
+    console.log(`${hours}:${min}`)
+      this.setState({
+        hoursAndMin: `${hours}:${min}`
+      })
+    }
+
+
   render(){
     return (
       <React.Fragment>
@@ -196,8 +219,8 @@ class App extends React.Component {
           <ToastContainer />
           <SearchResults resultsArr={this.state.resultsArr} search={this.state.search} addItemToArr={this.addItemToArr} />
           {this.state.arrOfItems.length > 0 && this.state.guiltLevel === "" && this.state.search === "" ? <FoodList showSearchBar={this.showSearchBar} calculateMacros={this.calculateMacros} removeItem={this.removeItem} number={this.state.number} arrOfItems={this.state.arrOfItems}/> : null }
-          {this.state.guiltLevel !== "" ? <FoodCalculationResults imageUrl={this.state.imageUrl} guiltLevel={this.state.guiltLevel} calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
-          {this.state.totalCalories !== "" && this.state.guiltLevel !== ""? <GuiltLevelMessage hideDropdown={this.hideDropdown} showSearchBar={this.showSearchBar} calculateExerciseTime={this.calculateExerciseTime} handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick} exerciseDropdown={this.state.exerciseDropdown} displayExerciseDropdown={this.displayExerciseDropdown} clearGuiltLevel={this.clearGuiltLevel} guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/> : null }
+          {this.state.guiltLevel !== "" ? <FoodCalculationResults newLevel={this.state.newLevel} imageUrl={this.state.imageUrl} guiltLevel={this.state.guiltLevel} calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
+          {this.state.totalCalories !== "" && this.state.guiltLevel !== ""? <GuiltLevelMessage setNewCheaterLevel={this.setNewCheaterLevel} hideDropdown={this.hideDropdown} showSearchBar={this.showSearchBar} calculateExerciseTime={this.calculateExerciseTime} handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick} exerciseDropdown={this.state.exerciseDropdown} displayExerciseDropdown={this.displayExerciseDropdown} clearGuiltLevel={this.clearGuiltLevel} guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/> : null }
         </div>
       </React.Fragment>
     );
