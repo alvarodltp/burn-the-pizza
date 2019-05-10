@@ -26,7 +26,7 @@ function GuiltLevelMessage(props) {
         {props.exerciseDropdown === true ?
         <ExerciseDropdown calculateExerciseTime={props.calculateExerciseTime} handleChange={props.handleChange} handleDropdownClick={props.handleDropdownClick}/> : null }
         <Button size="huge" style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}} onClick={() => {props.clearGuiltLevel(); props.showSearchBar(); props.hideDropdown()}}>
-          Add More Items
+          Add Or Remove Items
         </Button>
 
       </Card.Content>

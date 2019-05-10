@@ -45,8 +45,8 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    toast.info("Start searching for foods!", {
-        position: toast.POSITION.TOP_CENTER
+    toast.info("Start searching for foods on the top of the page!", {
+        position: toast.POSITION.BOTTOM_LEFT
       })
   }
 
