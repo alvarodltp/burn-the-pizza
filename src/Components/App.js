@@ -10,6 +10,7 @@ import { Button } from 'semantic-ui-react'
 import LandingPage from './LandingPage'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ExerciseTimeResult from './ExerciseTimeResult';
 
 let counter = 1
 
@@ -98,15 +99,15 @@ class App extends React.Component {
 
   calculateMacros = () => {
     let totalCalories;
-    this.state.arrOfItems.length >= 1 ? totalCalories = this.state.arrOfItems.map(item => item.nf_calories).reduce((a, b) => a + b).toFixed(2) : totalCalories = 0
+    this.state.arrOfItems.length >= 1 ? totalCalories = Math.round(this.state.arrOfItems.map(item => item.nf_calories).reduce((a, b) => a + b).toFixed(2)) : totalCalories = 0
     let totalCarbs;
-    this.state.arrOfItems.length >= 1 ? totalCarbs = this.state.arrOfItems.map(item => item.nf_total_carbohydrate).reduce((a, b) => a + b).toFixed(2) : totalCarbs = 0
+    this.state.arrOfItems.length >= 1 ? totalCarbs = Math.round(this.state.arrOfItems.map(item => item.nf_total_carbohydrate).reduce((a, b) => a + b).toFixed(2)) : totalCarbs = 0
     let totalFats;
-    this.state.arrOfItems.length >= 1 ? totalFats = this.state.arrOfItems.map(item => item.nf_total_fat).reduce((a, b) => a + b).toFixed(2) : totalFats = 0
-    let totalSugars;
-    this.state.arrOfItems.length >= 1 ? totalSugars = this.state.arrOfItems.map(item => item.nf_sugars).reduce((a, b) => a + b).toFixed(2) : totalSugars = 0
+    this.state.arrOfItems.length >= 1 ? totalFats = Math.round(this.state.arrOfItems.map(item => item.nf_total_fat).reduce((a, b) => a + b).toFixed(2)) : totalFats = 0
+    // let totalSugars;
+    // this.state.arrOfItems.length >= 1 ? totalSugars = this.state.arrOfItems.map(item => item.nf_sugars).reduce((a, b) => a + b).toFixed(2) : totalSugars = 0
     let totalProtein;
-    this.state.arrOfItems.length >= 1 ? totalProtein = this.state.arrOfItems.map(item => item.nf_protein).reduce((a, b) => a + b).toFixed(2) : totalProtein = 0
+    this.state.arrOfItems.length >= 1 ? totalProtein = Math.round(this.state.arrOfItems.map(item => item.nf_protein).reduce((a, b) => a + b).toFixed(2)) : totalProtein = 0
     let guiltLevel;
 
     if(totalCalories <= 400){
@@ -120,7 +121,6 @@ class App extends React.Component {
       totalCalories: totalCalories,
       totalFats: totalFats,
       totalCarbs: totalCarbs,
-      totalSugars: totalSugars,
       totalProtein: totalProtein,
       guiltLevel: guiltLevel
     }, () => this.hideFoodList(), this.clearSearch())
@@ -139,19 +139,25 @@ class App extends React.Component {
   }
 
   handleDropdownClick = (e, data) => {
-    let userWeightKg = (this.state.weight / 2.2).toFixed(2)
-    let activityName = e.target.innerText
-    let filteredObj = data.options.filter(option => option.text === activityName)[0]
-    this.setState({
-      selectedActivity: filteredObj,
-      userWeightKg: userWeightKg
-    })
+    if(this.state.weight <= 0 || this.state.weight === ""){
+      this.setState({
+        error: "Enter your weight to calculate."
+      })
+    } else {
+      let userWeightKg = (this.state.weight / 2.2).toFixed(2)
+      let activityName = e.target.innerText
+      let filteredObj = data.options.filter(option => option.text === activityName)[0]
+      this.setState({
+        selectedActivity: filteredObj,
+        userWeightKg: userWeightKg
+      }, () => this.calculateExerciseTime(userWeightKg, filteredObj))
+    }
   }
 
-  calculateExerciseTime = () => {
-    let userWeightKg = this.state.userWeightKg
-    let selectedActivity = this.state.selectedActivity
-    let energyExpenditurePerMinute = (0.0175 * selectedActivity.value * userWeightKg).toFixed(2)
+  calculateExerciseTime = (userWeightKg, filteredObj) => {
+    // let userWeightKg = this.state.userWeightKg
+    // let selectedActivity = this.state.selectedActivity
+    let energyExpenditurePerMinute = (0.0175 * filteredObj.value * userWeightKg).toFixed(2)
     //divide total calories consumed by calories burned in a minute
     let totalExerciseTime = Math.round(this.state.totalCalories / energyExpenditurePerMinute)
     this.setState({
@@ -220,6 +226,7 @@ class App extends React.Component {
           <SearchResults resultsArr={this.state.resultsArr} search={this.state.search} addItemToArr={this.addItemToArr} />
           {this.state.arrOfItems.length > 0 && this.state.guiltLevel === "" && this.state.search === "" ? <FoodList showSearchBar={this.showSearchBar} calculateMacros={this.calculateMacros} removeItem={this.removeItem} number={this.state.number} arrOfItems={this.state.arrOfItems}/> : null }
           {this.state.guiltLevel !== "" ? <FoodCalculationResults newLevel={this.state.newLevel} imageUrl={this.state.imageUrl} guiltLevel={this.state.guiltLevel} calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
+          <ExerciseTimeResult totalExerciseTime={this.state.totalExerciseTime} selectedActivity={this.state.selectedActivity} totalCalories={this.state.totalCalories} hoursAndMin={this.state.hoursAndMin}/>
           {this.state.totalCalories !== "" && this.state.guiltLevel !== ""? <GuiltLevelMessage setNewCheaterLevel={this.setNewCheaterLevel} hideDropdown={this.hideDropdown} showSearchBar={this.showSearchBar} calculateExerciseTime={this.calculateExerciseTime} handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick} exerciseDropdown={this.state.exerciseDropdown} displayExerciseDropdown={this.displayExerciseDropdown} clearGuiltLevel={this.clearGuiltLevel} guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/> : null }
         </div>
       </React.Fragment>

@@ -59,11 +59,18 @@ p {
 }
 
 #title h1 {
-  font-size: 120px;
+  font-size: 100px;
   width: 90%;
 }
 
 .ui.vertical.segment {
   font-size: 20px;
   font-weight: bold;
+}
+
+.ui.image {
+ border-radius: 10px;
+ padding:2px;
+ border:1px solid gray;
+ background-color: orange;
 }
