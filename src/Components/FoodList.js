@@ -16,7 +16,7 @@ class FoodList extends React.Component {
         </List>
       </div>
       <div>
-        <Button id="calculate-button" onClick={this.props.calculateMacros}>
+        <Button id="calculate-button" onClick={() => {this.props.calculateMacros(); this.props.showSearchBar()}}>
           Calculate Guilt Level
         </Button>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, Card, Image, Input } from 'semantic-ui-react'
+import { Button, Icon, Card, Image, Input, Modal, Header } from 'semantic-ui-react'
 import ExerciseDropdown from './ExerciseDropdown'
 
 function GuiltLevelMessage(props) {
@@ -9,18 +9,27 @@ function GuiltLevelMessage(props) {
         <Card.Header>{props.guiltLevel["description"]}</Card.Header>
       </Card.Content>
       <Card.Content style={{boxShadow: "none", borderRadius: "0px"}} extra>
+      {props.guiltLevel["name"] === "The Reckless Cheater" ?
+      <Modal trigger={<Button onClick={props.popUpMessage} style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}}>Order Pizza 🍕</Button>}
+        centered={true}>
+        <Modal.Header>This is a confirmation you are a reckless cheater.</Modal.Header>
+        <Modal.Content image>
+          <Image wrapped size='medium' src='https://media.giphy.com/media/1iLEjvA5AIf53MVq/giphy.gif' />
+          <Modal.Description>
+            <p>Did you really think I was going to let you order pizza?</p>
+          </Modal.Description>
+        </Modal.Content>
+      </Modal> : null }
+
         <Button onClick={props.displayExerciseDropdown} style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}}>
           Burn Calories Now 💪
         </Button>
         {props.exerciseDropdown === true ?
-        <ExerciseDropdown handleChange={props.handleChange} handleDropdownClick={props.handleDropdownClick}/> : null }
-        <Button style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}} onClick={props.clearGuiltLevel}>
+        <ExerciseDropdown calculateExerciseTime={props.calculateExerciseTime} handleChange={props.handleChange} handleDropdownClick={props.handleDropdownClick}/> : null }
+        <Button style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}} onClick={() => {props.clearGuiltLevel(); props.showSearchBar()}}>
           Add More Items
         </Button>
-        {props.guiltLevel["name"] === "Reckless Cheater" ?
-        <Button style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}}>
-          Order Pizza 🍕
-        </Button> : null}
+
       </Card.Content>
     </Card>
   )

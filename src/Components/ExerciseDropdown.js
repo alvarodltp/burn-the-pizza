@@ -28,7 +28,7 @@ const ExerciseDropdown = (props) => {
       <Input style={{marginBottom: "10px"}} type='number' placeholder='Weight...' action>
         <input onChange={props.handleChange}/>
         <Select style={{width: "40%"}} onChange={(e, data) => {props.handleDropdownClick(e, data)}} options={activityOptions} placeholder='Exercise Type' />
-        <Button type='submit'>Calculate</Button>
+        <Button onClick={props.calculateExerciseTime} type='submit' primary>Calculate</Button>
       </Input>
     </React.Fragment>
   )
