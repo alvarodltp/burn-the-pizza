@@ -66,7 +66,7 @@ class App extends React.Component {
 
   getSearchOptions = (e) => {
     let search = e.target.value.toLowerCase()
-    fetch(`https://api.nutritionix.com/v1_1/search/${e.target.value.toLowerCase()}?results=0%3A5&cal_min=50&cal_max=2000&fields=item_name%2Cbrand_name%2Cnf_serving_size_unit%2Cnf_total_carbohydrate%2Cnf_sugars%2Cimages_front_full_url%2Cnf_serving_size_qty%2Cnf_protein%2Cnf_calories%2Cnf_total_fat%2Citem_id%2Cbrand_id&appId=9167a26d&appKey=700f3e0e67379b6a1132274f90065f70`)
+    fetch(`https://api.nutritionix.com/v1_1/search/${e.target.value.toLowerCase()}?results=0%3A5&cal_min=50&cal_max=2000&fields=item_name%2Cbrand_name%2Cnf_serving_size_unit%2Cnf_total_carbohydrate%2Cnf_sugars%2Cimages_front_full_url%2Cnf_serving_size_qty%2Cnf_protein%2Cnf_calories%2Cnf_total_fat%2Citem_id%2Cbrand_id&appId=a8f79d5d&appKey=ad063534d80beb7b73e61da6a526265b`)
     .then(response => response.json())
     .then(json => {
       let results = json["hits"].map(result => result.fields)
@@ -215,7 +215,6 @@ class App extends React.Component {
       })
     }
 
-
   render(){
     return (
       <React.Fragment>
@@ -226,7 +225,7 @@ class App extends React.Component {
           <SearchResults resultsArr={this.state.resultsArr} search={this.state.search} addItemToArr={this.addItemToArr} />
           {this.state.arrOfItems.length > 0 && this.state.guiltLevel === "" && this.state.search === "" ? <FoodList showSearchBar={this.showSearchBar} calculateMacros={this.calculateMacros} removeItem={this.removeItem} number={this.state.number} arrOfItems={this.state.arrOfItems}/> : null }
           {this.state.guiltLevel !== "" ? <FoodCalculationResults newLevel={this.state.newLevel} imageUrl={this.state.imageUrl} guiltLevel={this.state.guiltLevel} calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
-          <ExerciseTimeResult totalExerciseTime={this.state.totalExerciseTime} selectedActivity={this.state.selectedActivity} totalCalories={this.state.totalCalories} hoursAndMin={this.state.hoursAndMin}/>
+          {this.state.totalExerciseTime != "" ? <ExerciseTimeResult totalExerciseTime={this.state.totalExerciseTime} selectedActivity={this.state.selectedActivity} totalCalories={this.state.totalCalories} hoursAndMin={this.state.hoursAndMin}/> : null }
           {this.state.totalCalories !== "" && this.state.guiltLevel !== ""? <GuiltLevelMessage setNewCheaterLevel={this.setNewCheaterLevel} hideDropdown={this.hideDropdown} showSearchBar={this.showSearchBar} calculateExerciseTime={this.calculateExerciseTime} handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick} exerciseDropdown={this.state.exerciseDropdown} displayExerciseDropdown={this.displayExerciseDropdown} clearGuiltLevel={this.clearGuiltLevel} guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/> : null }
         </div>
       </React.Fragment>
