@@ -8,6 +8,8 @@ import SearchResults from './SearchResults'
 import ExerciseDropdown from './ExerciseDropdown'
 import { Button } from 'semantic-ui-react'
 import LandingPage from './LandingPage'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 let counter = 1
 
@@ -33,8 +35,25 @@ class App extends React.Component {
       userWeightKg: "",
       totalExerciseTime: "",
       weight: "",
-      exerciseDropdown: false
+      exerciseDropdown: false,
+      imageUrl: ""
     }
+  }
+
+  componentDidMount(){
+    toast.info("Start searching for foods!", {
+        position: toast.POSITION.TOP_CENTER
+      })
+  }
+
+  setImage = () => {
+    let imageUrl;
+    if(this.state.guiltLevel["name"] === "The Responsible Cheater") {
+      imageUrl = "https://media.giphy.com/media/PPW3wn2AyJssAy9Liz/giphy.gif"
+    }
+    this.setState({
+      imageUrl: imageUrl
+    })
   }
 
   getSearchOptions = (e) => {
@@ -103,7 +122,7 @@ class App extends React.Component {
   hideFoodList = () => {
     this.setState({
       hideFoodList: !this.state.hideFoodList
-    })
+    }, this.setImage())
   }
 
   handleDropdownClick = (e, data) => {
@@ -148,10 +167,11 @@ class App extends React.Component {
       <React.Fragment>
         <div className="App">
           {this.state.search.length < 1 === true && this.state.arrOfItems.length === 0 ? <LandingPage hideFoodList={this.hideFoodList}/> : null}
-          <SearchBar getSearchOptions={this.getSearchOptions} addItemToArr={this.addItemToArr} search={this.state.search} resultsArr={this.state.resultsArr} itemNames={this.state.itemNames}/>
+          <SearchBar getSearchOptions={this.getSearchOptions} addItemToArr={this.addItemToArr} search={this.state.search} resultsArr={this.state.resultsArr} itemNames={this.state.itemNames}/><br/><br/>
+          <ToastContainer />
           <SearchResults resultsArr={this.state.resultsArr} search={this.state.search} addItemToArr={this.addItemToArr} />
           {this.state.arrOfItems.length > 0 && this.state.guiltLevel === "" ? <FoodList calculateMacros={this.calculateMacros} removeItem={this.removeItem} number={this.state.number} arrOfItems={this.state.arrOfItems}/> : null }
-          {this.state.totalCalories !== "" ? <FoodCalculationResults calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
+          {this.state.guiltLevel !== "" ? <FoodCalculationResults imageUrl={this.state.imageUrl} guiltLevel={this.state.guiltLevel} calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
           {this.state.totalCalories !== "" && this.state.guiltLevel !== ""? <GuiltLevelMessage handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick} exerciseDropdown={this.state.exerciseDropdown} displayExerciseDropdown={this.displayExerciseDropdown} clearGuiltLevel={this.clearGuiltLevel} guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/> : null }
         </div>
       </React.Fragment>

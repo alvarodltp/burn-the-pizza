@@ -6,7 +6,7 @@ class FoodList extends React.Component {
   return (
     <React.Fragment>
       <div id="result-list">
-        <h1 style={{fontSize: "40px"}}>Your Cheat Foods</h1>
+        <h1 style={{fontSize: "50px"}}>YOUR CHEAT FOOD LIST</h1>
         <List divided verticalAlign='middle'>
         {this.props.arrOfItems.map(item =>
           <List.Item>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Input } from 'semantic-ui-react'
+import { Dropdown, Input, Select, Button } from 'semantic-ui-react'
 
 let activityOptions = [
       {text: 'Bicycling - < 10, general leisure', value: 4.0 },
@@ -25,13 +25,11 @@ let activityOptions = [
 const ExerciseDropdown = (props) => {
   return(
     <React.Fragment>
-      <Input
-      id="weight"
-      label="Weight"
-      onChange={props.handleChange}
-      placeholder='Enter Your Weight in Lb...'
-      />
-      <Dropdown label="Exercise Type" id="activity-dropdown" onChange={(e, data) => {props.handleDropdownClick(e, data)}} placeholder='Select Activity...' search selection options={activityOptions} />
+      <Input style={{marginBottom: "10px"}} type='number' placeholder='Weight...' action>
+        <input onChange={props.handleChange}/>
+        <Select style={{width: "40%"}} onChange={(e, data) => {props.handleDropdownClick(e, data)}} options={activityOptions} placeholder='Exercise Type' />
+        <Button type='submit'>Calculate</Button>
+      </Input>
     </React.Fragment>
   )
 }

@@ -4,14 +4,11 @@ import ExerciseDropdown from './ExerciseDropdown'
 
 function GuiltLevelMessage(props) {
   return(
-    <Card style={{width: "80%", margin: "0 auto", marginBottom: "40px"}}>
+    <Card style={{width: "80%", margin: "0 auto", marginBottom: "30px", background: "transparent", borderRadius: "0px", boxShadow: "none"}}>
       <Card.Content>
-        <Card.Header>{props.guiltLevel["name"]}</Card.Header>
-        <Card.Description>
-          {props.guiltLevel["description"]}
-        </Card.Description>
+        <Card.Header>{props.guiltLevel["description"]}</Card.Header>
       </Card.Content>
-      <Card.Content extra>
+      <Card.Content style={{boxShadow: "none", borderRadius: "0px"}} extra>
         <Button onClick={props.displayExerciseDropdown} style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}}>
           Burn Calories Now 💪
         </Button>
@@ -21,9 +18,9 @@ function GuiltLevelMessage(props) {
           Add More Items
         </Button>
         {props.guiltLevel["name"] === "Reckless Cheater" ?
-        <a>
+        <Button style={{background: "orange", color: "white", width: "100%", marginBottom: "10px"}}>
           Order Pizza 🍕
-        </a> : null}
+        </Button> : null}
       </Card.Content>
     </Card>
   )
