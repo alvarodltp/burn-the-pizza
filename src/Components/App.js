@@ -1,5 +1,6 @@
 import React from 'react';
 import '../App.css';
+import { BrowserRouter, Route } from 'react-router-dom'
 import SearchBar from './SearchBar'
 import FoodList from './FoodList'
 import GuiltLevelMessage from './GuiltLevelMessage'
@@ -11,6 +12,8 @@ import LandingPage from './LandingPage'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ExerciseTimeResult from './ExerciseTimeResult';
+import SignUp from './SignUp'
+import Login from './Login'
 
 let counter = 1
 
@@ -218,16 +221,20 @@ class App extends React.Component {
   render(){
     return (
       <React.Fragment>
-        <div className="App">
-          {this.state.search.length < 1 === true && this.state.arrOfItems.length === 0 ? <LandingPage hideFoodList={this.hideFoodList}/> : null}
-          {this.state.showSearchBar === true ? <SearchBar getSearchOptions={this.getSearchOptions} addItemToArr={this.addItemToArr} search={this.state.search} resultsArr={this.state.resultsArr} itemNames={this.state.itemNames}/> : null } <br/>
-          <ToastContainer />
-          <SearchResults resultsArr={this.state.resultsArr} search={this.state.search} addItemToArr={this.addItemToArr} />
-          {this.state.arrOfItems.length > 0 && this.state.guiltLevel === "" && this.state.search === "" ? <FoodList showSearchBar={this.showSearchBar} calculateMacros={this.calculateMacros} removeItem={this.removeItem} number={this.state.number} arrOfItems={this.state.arrOfItems}/> : null }
-          {this.state.guiltLevel !== "" ? <FoodCalculationResults newLevel={this.state.newLevel} imageUrl={this.state.imageUrl} guiltLevel={this.state.guiltLevel} calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
-          {this.state.totalExerciseTime != "" ? <ExerciseTimeResult totalExerciseTime={this.state.totalExerciseTime} selectedActivity={this.state.selectedActivity} totalCalories={this.state.totalCalories} hoursAndMin={this.state.hoursAndMin}/> : null }
-          {this.state.totalCalories !== "" && this.state.guiltLevel !== ""? <GuiltLevelMessage setNewCheaterLevel={this.setNewCheaterLevel} hideDropdown={this.hideDropdown} showSearchBar={this.showSearchBar} calculateExerciseTime={this.calculateExerciseTime} handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick} exerciseDropdown={this.state.exerciseDropdown} displayExerciseDropdown={this.displayExerciseDropdown} clearGuiltLevel={this.clearGuiltLevel} guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/> : null }
-        </div>
+        <BrowserRouter>
+          <div className="App">
+            {this.state.search.length < 1 === true && this.state.arrOfItems.length === 0 ? <LandingPage hideFoodList={this.hideFoodList}/> : null}
+            {this.state.showSearchBar === true ? <SearchBar getSearchOptions={this.getSearchOptions} addItemToArr={this.addItemToArr} search={this.state.search} resultsArr={this.state.resultsArr} itemNames={this.state.itemNames}/> : null } <br/>
+            <ToastContainer />
+            <SearchResults resultsArr={this.state.resultsArr} search={this.state.search} addItemToArr={this.addItemToArr} />
+            {this.state.arrOfItems.length > 0 && this.state.guiltLevel === "" && this.state.search === "" ? <FoodList showSearchBar={this.showSearchBar} calculateMacros={this.calculateMacros} removeItem={this.removeItem} number={this.state.number} arrOfItems={this.state.arrOfItems}/> : null }
+            {this.state.guiltLevel !== "" ? <FoodCalculationResults newLevel={this.state.newLevel} imageUrl={this.state.imageUrl} guiltLevel={this.state.guiltLevel} calories={this.state.totalCalories} protein={this.state.totalProtein} carbs={this.state.totalCarbs} fats={this.state.totalFats} sugars={this.state.totalSugars}/> : null }
+            {this.state.totalExerciseTime != "" ? <ExerciseTimeResult totalExerciseTime={this.state.totalExerciseTime} selectedActivity={this.state.selectedActivity} totalCalories={this.state.totalCalories} hoursAndMin={this.state.hoursAndMin}/> : null }
+            {this.state.totalCalories !== "" && this.state.guiltLevel !== ""? <GuiltLevelMessage setNewCheaterLevel={this.setNewCheaterLevel} hideDropdown={this.hideDropdown} showSearchBar={this.showSearchBar} calculateExerciseTime={this.calculateExerciseTime} handleChange={this.handleChange} handleDropdownClick={this.handleDropdownClick} exerciseDropdown={this.state.exerciseDropdown} displayExerciseDropdown={this.displayExerciseDropdown} clearGuiltLevel={this.clearGuiltLevel} guiltLevel={this.state.guiltLevel} percentage={this.state.percentage} color={this.state.color}/> : null }
+            <Route exact path='/signup' render={props=> <SignUp {...props} />} />
+            <Route exact path='/login' render={props=> <Login {...props} />} />
+          </div>
+        </BrowserRouter>
       </React.Fragment>
     );
   }
